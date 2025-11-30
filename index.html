@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="refresh" content="0;url=upi://pay?pa=2nareshkumar4@oksbi&pn=Naresh&am=200&cu=INR&tn=UnityFiveFund%20SIP">
+  <script>
+    function redirect() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code") || "";
+      const amount = params.get("amount") || "";
+
+      const upi =
+        "upi://pay?" +
+        "pa=2nareshkumar4@oksbi" +
+        "&pn=UnityFiveFund" +
+        "&am=" + encodeURIComponent(amount) +
+        "&cu=INR" +
+        "&tn=" + encodeURIComponent("SIP Payment - " + code);
+
+      window.location.href = upi;
+    }
+  </script>
 </head>
-<body>
+<body onload="redirect()">
 Redirecting to UPI…
 </body>
 </html>
