@@ -1,33 +1,26 @@
-function handleCallback(callback) {
-  const data = callback.data;
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function redirect() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code") || "";
+    const amount = params.get("amount") || "";
 
-  if (data.startsWith("pay_")) {
-    const parts = data.split("_");
-    const code = parts[1];
-    const amount = parts[2];
-
-    // PHONEPE-SAFE RAW UPI LINK
     const upi =
       "upi://pay?" +
-      "pa=" + encodeURIComponent("7989322550@ybl") +   // UPDATED UPI
-      "&pn=" + encodeURIComponent("UnityFiveFund") +
+      "pa=7989322550@ybl" +                 // UPDATED UPI
+      "&pn=UnityFiveFund" +
       "&am=" + encodeURIComponent(amount) +
       "&cu=INR" +
       "&tn=" + encodeURIComponent("SIP Payment - " + code);
 
-    const answer = {
-      callback_query_id: callback.id,
-      text: "Tap below to pay:\n\n" + upi,
-      show_alert: true
-    };
-
-    UrlFetchApp.fetch(
-      `https://api.telegram.org/bot${SIP_BOT_TOKEN}/answerCallbackQuery`,
-      {
-        method: "post",
-        contentType: "application/json",
-        payload: JSON.stringify(answer)
-      }
-    );
-  }
+    window.location.href = upi;
 }
+</script>
+</head>
+<body onload="redirect()">
+Redirecting to UPI…
+</body>
+</html>
+
