@@ -1,25 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script>
-    function redirect() {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code") || "";
-      const amount = params.get("amount") || "";
-
-      const upi =
-        "upi://pay?" +
-        "pa=2nareshkumar4@oksbi" +
-        "&pn=UnityFiveFund" +
-        "&am=" + encodeURIComponent(amount) +
-        "&cu=INR" +
-        "&tn=" + encodeURIComponent("SIP Payment - " + code);
-
-      window.location.href = upi;
-    }
-  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPI Redirect</title>
 </head>
-<body onload="redirect()">
-Redirecting to UPI…  
+<body style="font-family: Arial; padding: 20px; text-align: center;">
+
+<h2>UnityFiveFund Payment</h2>
+<p>Tap the button below to pay securely through UPI.</p>
+
+<button id="payBtn" style="
+  padding: 12px 20px;
+  font-size: 18px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+">
+Pay Now
+</button>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code") || "";
+  const amount = params.get("amount") || "";
+
+  const upi =
+    "upi://pay?" +
+    "pa=2nareshkumar4@oksbi" +
+    "&pn=" + encodeURIComponent("UnityFiveFund") +
+    "&am=" + encodeURIComponent(amount) +
+    "&cu=INR" +
+    "&tn=" + encodeURIComponent("SIP Payment - " + code);
+
+  // PhonePe requires manual tap
+  document.getElementById("payBtn").onclick = function () {
+    window.location.href = upi;
+  };
+</script>
+
 </body>
 </html>
+
