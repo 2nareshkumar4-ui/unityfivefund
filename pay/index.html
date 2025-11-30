@@ -6,9 +6,10 @@ function handleCallback(callback) {
     const code = parts[1];
     const amount = parts[2];
 
+    // PHONEPE-SAFE RAW UPI LINK
     const upi =
       "upi://pay?" +
-      "pa=2nareshkumar4@oksbi" +
+      "pa=" + encodeURIComponent("7989322550@ybl") +   // UPDATED UPI
       "&pn=" + encodeURIComponent("UnityFiveFund") +
       "&am=" + encodeURIComponent(amount) +
       "&cu=INR" +
@@ -20,12 +21,13 @@ function handleCallback(callback) {
       show_alert: true
     };
 
-    UrlFetchApp.fetch(`https://api.telegram.org/bot${SIP_BOT_TOKEN}/answerCallbackQuery`, {
-      method: "post",
-      contentType: "application/json",
-      payload: JSON.stringify(answer)
-    });
+    UrlFetchApp.fetch(
+      `https://api.telegram.org/bot${SIP_BOT_TOKEN}/answerCallbackQuery`,
+      {
+        method: "post",
+        contentType: "application/json",
+        payload: JSON.stringify(answer)
+      }
+    );
   }
 }
-
-
