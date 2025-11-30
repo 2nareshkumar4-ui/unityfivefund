@@ -1,45 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPI Redirect</title>
-</head>
-<body style="font-family: Arial; padding: 20px; text-align: center;">
+function handleCallback(callback) {
+  const data = callback.data;
 
-<h2>UnityFiveFund Payment</h2>
-<p>Tap the button below to pay securely through UPI.</p>
+  if (data.startsWith("pay_")) {
+    const parts = data.split("_");
+    const code = parts[1];
+    const amount = parts[2];
 
-<button id="payBtn" style="
-  padding: 12px 20px;
-  font-size: 18px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-">
-Pay Now
-</button>
+    const upi =
+      "upi://pay?" +
+      "pa=2nareshkumar4@oksbi" +
+      "&pn=" + encodeURIComponent("UnityFiveFund") +
+      "&am=" + encodeURIComponent(amount) +
+      "&cu=INR" +
+      "&tn=" + encodeURIComponent("SIP Payment - " + code);
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code") || "";
-  const amount = params.get("amount") || "";
+    const answer = {
+      callback_query_id: callback.id,
+      text: "Tap below to pay:\n\n" + upi,
+      show_alert: true
+    };
 
-  const upi =
-    "upi://pay?" +
-    "pa=2nareshkumar4@oksbi" +
-    "&pn=" + encodeURIComponent("UnityFiveFund") +
-    "&am=" + encodeURIComponent(amount) +
-    "&cu=INR" +
-    "&tn=" + encodeURIComponent("SIP Payment - " + code);
+    UrlFetchApp.fetch(`https://api.telegram.org/bot${SIP_BOT_TOKEN}/answerCallbackQuery`, {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify(answer)
+    });
+  }
+}
 
-  // PhonePe requires manual tap
-  document.getElementById("payBtn").onclick = function () {
-    window.location.href = upi;
-  };
-</script>
-
-</body>
-</html>
 
